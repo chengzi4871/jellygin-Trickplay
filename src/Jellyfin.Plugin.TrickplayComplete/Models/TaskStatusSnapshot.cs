@@ -1,0 +1,1 @@
+namespace Jellyfin.Plugin.TrickplayComplete.Models; public sealed record TaskStatusSnapshot(string Phase,string? CurrentFile,int Completed,int Total,int Success,int Failed,int Skipped,DateTimeOffset? Started,DateTimeOffset? Finished,string? Error){public int Percent=>Total<=0?0:(int)Math.Clamp(Completed*100d/Total,0,100);}
