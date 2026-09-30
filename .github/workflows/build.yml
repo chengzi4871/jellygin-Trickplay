@@ -1,11 +1,16 @@
 name: Build
 on: [push, pull_request]
 jobs:
- build:
-  runs-on: ubuntu-latest
-  steps:
-   - uses: actions/checkout@v4
-   - uses: actions/setup-dotnet@v4
-     with: {dotnet-version: '8.0.x'}
-   - run: dotnet restore src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
-   - run: dotnet build src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj --configuration Release --no-restore
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - run: dotnet restore src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
+      - run: dotnet build src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj --configuration Release --no-restore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trickplay-complete
+          path: src/Jellyfin.Plugin.TrickplayComplete/bin/Release/net9.0/Jellyfin.Plugin.TrickplayComplete.dll
