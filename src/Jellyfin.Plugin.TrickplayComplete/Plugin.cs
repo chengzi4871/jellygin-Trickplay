@@ -1,0 +1,3 @@
+using MediaBrowser.Common.Plugins; using MediaBrowser.Common.Configuration; using MediaBrowser.Model.Plugins; using System.Reflection;
+namespace Jellyfin.Plugin.TrickplayComplete;
+public sealed class Plugin : BasePlugin<Configuration.PluginConfiguration>, IHasWebPages { public static Plugin Instance {get;private set;}=null!; public override string Name=>"Trickplay Complete"; public override Guid Id=>Guid.Parse("9c6d8d88-2f0f-4c18-a4f2-4a3df31fb1be"); public Plugin(IPluginPaths paths,IApplicationPaths appPaths):base(paths,appPaths)=>Instance=this; public IEnumerable<PluginPageInfo> GetPages()=>new[]{new PluginPageInfo("trickplaycomplete.js","Jellyfin.Plugin.TrickplayComplete.Web.config.js")}; }
