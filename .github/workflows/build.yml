@@ -10,11 +10,19 @@ jobs:
           dotnet-version: '9.0.x'
       - name: Align project with Jellyfin 10.11.11 target
         run: |
-          perl -0pi -e 's/<TargetFramework>net8\\.0<\\/TargetFramework>/<TargetFramework>net9.0<\\/TargetFramework>/' src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
-          perl -0pi -e 's#<PackageReference Include="Jellyfin\\.Server\\.Implementations"[^>]*/>##g' src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
+          perl -0pi -e 's/<TargetFramework>net8\.0<\/TargetFramework>/<TargetFramework>net9.0<\/TargetFramework>/' src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
+          perl -0pi -e 's#<PackageReference Include="Jellyfin\.Server\.Implementations"[^>]*/>##g' src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
       - run: dotnet restore src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
       - run: dotnet build src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj --configuration Release --no-restore
+      - name: Package plugin
+        run: |
+          mkdir -p package/TrickplayComplete_0.1.0.0
+          cp src/Jellyfin.Plugin.TrickplayComplete/bin/Release/net9.0/Jellyfin.Plugin.TrickplayComplete.dll package/TrickplayComplete_0.1.0.0/
+          cd package
+          zip -r ../TrickplayComplete_0.1.0.0.zip TrickplayComplete_0.1.0.0
       - uses: actions/upload-artifact@v4
         with:
           name: trickplay-complete
-          path: src/Jellyfin.Plugin.TrickplayComplete/bin/Release/net9.0/Jellyfin.Plugin.TrickplayComplete.dll
+          path: |
+            TrickplayComplete_0.1.0.0.zip
+            src/Jellyfin.Plugin.TrickplayComplete/bin/Release/net9.0/Jellyfin.Plugin.TrickplayComplete.dll
