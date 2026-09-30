@@ -1,0 +1,7 @@
+# Implementation contract
+
+Target: Jellyfin 10.11.11. The task must obtain Trickplay options and resolutions from the registered Jellyfin services and compare existing TrickplayInfo by (ItemId, Width). It must not infer database columns or write jellyfin.db. Metadata scanning is batch-oriented; FFmpeg starts only for missing widths. A successful job writes all generated tiles first, validates non-empty JPEGs and tile files, then calls the native SaveTrickplayInfo API. Failures remove the temporary directory and never write success metadata.
+
+The worker must use a bounded producer/consumer queue (default concurrency 1), cancellation-aware process-tree termination, a maximum output frame count, a per-item timeout, and temporary-byte accounting. Logs include item id, path, width, resolved Jellyfin options, FFmpeg executable source, arguments, exit code, output count, elapsed time, and cleanup result. ScheduledTask reports scan and generation progress and final counters. Any API signature that differs in 10.11.11 must be taken from the 10.11.11 source/package metadata before implementation; no master-branch assumptions.
+
+Failure records are keyed by ItemId + Width and store FailureCount, LastAttempt, FileSize, FileMTime, and LastError. Three consecutive failures pause automatic retries; changed size/mtime resets the count; an explicit force-retry bypasses the pause.
