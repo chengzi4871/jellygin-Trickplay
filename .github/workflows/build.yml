@@ -8,6 +8,10 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
+      - name: Align project with Jellyfin 10.11.11 target
+        run: |
+          sed -i 's/<TargetFramework>net8.0<\\/TargetFramework>/<TargetFramework>net9.0<\\/TargetFramework>/' src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
+          sed -i '/Jellyfin.Server.Implementations/d' src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
       - run: dotnet restore src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj
       - run: dotnet build src/Jellyfin.Plugin.TrickplayComplete/Jellyfin.Plugin.TrickplayComplete.csproj --configuration Release --no-restore
       - uses: actions/upload-artifact@v4
