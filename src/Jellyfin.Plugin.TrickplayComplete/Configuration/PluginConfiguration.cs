@@ -1,0 +1,3 @@
+using MediaBrowser.Model.Plugins;
+namespace Jellyfin.Plugin.TrickplayComplete.Configuration;
+public sealed class PluginConfiguration : BasePluginConfiguration { public bool Enable {get;set;}=true; public int ConcurrentJobs {get;set;}=1; public int FFmpegThreads {get;set;}=2; public bool EnableTolerantDecode {get;set;}=true; public int MaxRetries {get;set;}=3; public int MaxFrames {get;set;}=20000; public int MaxJobMinutes {get;set;}=30; public long MaxTemporarySizeBytes {get;set;}=2147483648; public bool RetryAfterFileChanged {get;set;}=true; }
